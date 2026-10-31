@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>에코가드 프로토타입</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #07090e;
+      color: #ffffff;
+      font-family: sans-serif;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    #car-display {
+      width: 100%;
+      max-width: 1100px;
+      background: #111622;
+      border: 2px solid #2d3748;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: #0b0e14;
+      border-bottom: 1px solid #1f2937;
+      font-size: 13px;
+      color: #9ca3af;
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      padding: 12px 20px;
+      background: #161d2b;
+      border-bottom: 1px solid #232d3f;
+    }
+    .tab-btn {
+      background: #232d3f;
+      color: #9ca3af;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .tab-btn.active {
+      background: #00e599;
+      color: #07090e;
+    }
+    .screen {
+      display: none;
+      padding: 24px;
+      min-height: 360px;
+    }
+    .screen.active {
+      display: block;
+    }
+    /* 3단 그리드 */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .card {
+      background: #18202e;
+      border: 1px solid #293548;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .val-huge {
+      font-size: 44px;
+      font-weight: bold;
+      color: #00e599;
+      margin: 12px 0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: #1e3a8a;
+      color: #60a5fa;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="car-display">
+    <div class="top-bar">
+      <div>14:32 | LTE | 22℃</div>
+      <div class="badge" id="m-point">현대카드 M포인트: 42,500 P</div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('tab1', this)">1. 탑승 전</button>
+      <button class="tab-btn" onclick="showTab('tab2', this)">2. 주행 중</button>
+      <button class="tab-btn" onclick="showTab('tab3', this)">3. 주행 종료</button>
+    </div>
+
+    <!-- 1. 탑승 전 -->
+    <div id="tab1" class="screen active">
+      <div class="grid">
+        <div class="card">
+          <div style="color:#9ca3af; font-size:13px;">배터리 실시간 헬스케어</div>
+          <div class="val-huge">78%</div>
+          <div style="color:#00e599; font-size:14px; margin-bottom:8px;">SoC 잔량 (342 km)</div>
+          <hr style="border:0; border-top:1px solid #293548; margin:12px 0;">
+          <div style="font-size:13px; color:#cbd5e1; line-height:1.6;">
+            • 팩 온도: 24 ℃ (정상)<br>
+            • 배터리 SOH: 98.4% (A+)<br>
+            • 열화 스트레스: 최저 (Safe)
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="color:#9ca3af; font-size:13px;">에코 내비게이션</div>
+          <div style="margin-top:16px; padding:12px; background:#111622; border:1px solid #00e599; border-radius:8px;">
+            <b style="color:#00e599;">에코 추천 경로 (187 km)</b>
+            <div style="font-size:12px; color:#9ca3af; margin-top:4px;">완만한 고저차 / 수명 방어 +45분</div>
+          </div>
+          <button style="width:100%; margin-top:30px; padding:12px; background:#00e599; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
+            에코 경로로 주행 시작
+          </button>
+        </div>
+
+        <div class="card">
+          <div style="color:#9ca3af; font-size:13px;">배터리 프리컨디셔닝</div>
+          <p style="font-size:13px; color:#9ca3af; margin-top:14px; line-height:1.5;">
+            현재 외부 기온에 맞춰 급속 충전 전 최적 온도로 배터리를 관리합니다.
+          </p>
+          <button style="width:100%; margin-top:40px; padding:12px; background:#293548; color:#fff; border:none; border-radius:8px; cursor:pointer;" onclick="alert('배터리 예열 최적화 완료!')">
+            원클릭 케어 시작
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 주행 중 -->
+    <div id="tab2" class="screen">
+      <div style="text-align:center; padding:30px 20px; background:#18202e; border:2px solid #00e599; border-radius:16px; max-width:650px; margin:0 auto;">
+        <div style="font-size:40px; margin-bottom:10px;">🦶 ➔ 🚫</div>
+        <div style="font-size:22px; font-weight:bold;">300m 앞 완만한 내리막 구간 시작</div>
+        <div style="color:#00e599; font-size:16px; margin:8px 0 16px;">가속 페달에서 발을 떼고 탄력 주행(Coasting)하세요</div>
+        <div style="font-size:13px; color:#9ca3af;">예상 에너지 회생: +0.4 kWh | 수명 방어: +5분</div>
+      </div>
+
+      <div style="max-width:650px; margin:24px auto 0; background:#18202e; padding:16px; border-radius:12px;">
+        <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:8px;">
+          <span style="color:#00e599;">SAFE (안전 순항 중)</span>
+          <span style="color:#f59e0b;">WARNING</span>
+          <span style="color:#ef4444;">CRITICAL</span>
+        </div>
+        <div style="height:12px; background:#293548; border-radius:6px; overflow:hidden;">
+          <div style="width:35%; height:100%; background:#00e599;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 주행 종료 -->
+    <div id="tab3" class="screen">
+      <h3 style="margin-bottom:16px;">주행 완료: 오늘의 배터리 수명 방어 결과</h3>
+      <div class="grid">
+        <div class="card" style="text-align:center;">
+          <div style="color:#9ca3af; font-size:13px;">배터리 수명 방어</div>
+          <div class="val-huge">+3.2 시간</div>
+          <div style="font-size:12px; color:#64748b;">기준 주행 모델 대비</div>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="color:#9ca3af; font-size:13px;">잔존 가치 보존 환산</div>
+          <div class="val-huge" style="color:#38bdf8;">+1,850 원</div>
+          <div style="font-size:12px; color:#64748b;">중고차 감가 방어액</div>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="color:#9ca3af; font-size:13px;">탄소 배출 절감</div>
+          <div class="val-huge" style="color:#f59e0b;">420 g</div>
+          <div style="font-size:12px; color:#64748b;">소나무 1.2그루 효과</div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px; padding:16px 24px; background:linear-gradient(90deg, #1e3a8a, #0f172a); border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid #3b82f6;">
+        <div>
+          <b style="font-size:15px;">현대카드 M포인트 에코 리워드</b>
+          <div style="font-size:12px; color:#93c5fd; margin-top:4px;">지켜낸 배터리 수명만큼 포인트가 지급됩니다.</div>
+        </div>
+        <button id="p-btn" style="padding:10px 20px; background:#3b82f6; color:#fff; border:none; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="getPoint()">
+          +420 M포인트 받기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tabId, btn) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    let p = 42500;
+    function getPoint() {
+      const btn = document.getElementById('p-btn');
+      if (btn.disabled) return;
+      p += 420;
+      document.getElementById('m-point').innerText = `현대카드 M포인트: ${p.toLocaleString()} P`;
+      btn.innerText = '적립 완료 ✓';
+      btn.style.background = '#10b981';
+      btn.disabled = true;
+    }
+  </script>
+</body>
+</html>
